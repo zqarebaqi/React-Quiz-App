@@ -72,14 +72,21 @@ function App() {
     initialState
   );
 
-  const numQuestions = questions.length;
-const maxPossiblePoints=questions.reduce((prev,cur)=>prev+cur.points,0)
+
   useEffect(function () {
-    fetch("http://localhost:8000/questions")
+    // fetch("http://localhost:8000/questions")// put the data on public because we need to deploy it on vercel so we try the below code:
+    fetch("/questions.json")
       .then((res) => res.json())
-      .then((data) => dispatch({ type: "dataRecived", payload: data }))
+      .then((data) => dispatch({ type: "dataRecived", payload: data.questions })) //data changed to data.question 
       .catch((err) => dispatch({ type: "dataFailed" }));
   }, []);
+
+    const numQuestions = questions.length;
+    const maxPossiblePoints = questions.reduce(
+      (prev, cur) => prev + cur.points,
+      0
+    );
+  
 
   return (
     <div className="app">
